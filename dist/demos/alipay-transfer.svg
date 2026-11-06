@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812" width="375" height="812">
+  <defs>
+    <linearGradient id="aliBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1677FF"/>
+      <stop offset="30%" stop-color="#1677FF"/>
+      <stop offset="30.1%" stop-color="#F5F5F5"/>
+      <stop offset="100%" stop-color="#F5F5F5"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="375" height="812" fill="#F5F5F5"/>
+  <!-- Status bar -->
+  <rect width="375" height="44" fill="#1677FF"/>
+  <text x="187" y="30" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="600" fill="#FFF">9:41</text>
+  <text x="30" y="30" font-family="sans-serif" font-size="13" fill="#FFF">中国移动</text>
+  <rect x="310" y="18" width="22" height="11" rx="2" fill="none" stroke="#FFF" stroke-width="1.2"/>
+  <rect x="312" y="20" width="16" height="7" rx="1" fill="#FFF"/>
+
+  <!-- Top header -->
+  <rect y="44" width="375" height="120" fill="#1677FF"/>
+  <!-- Back arrow -->
+  <text x="24" y="80" font-family="sans-serif" font-size="24" fill="#FFF">&lt;</text>
+  <text x="187" y="80" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="600" fill="#FFF">转账</text>
+
+  <!-- Transfer amount area -->
+  <text x="187" y="125" text-anchor="middle" font-family="sans-serif" font-size="14" fill="rgba(255,255,255,0.8)">转账金额</text>
+  <text x="187" y="155" text-anchor="middle" font-family="sans-serif" font-size="13" fill="rgba(255,255,255,0.7)">实时到账 免手续费</text>
+
+  <!-- Main content card -->
+  <rect x="16" y="180" width="343" height="280" rx="12" fill="#FFF"/>
+
+  <!-- Recipient info -->
+  <rect x="32" y="200" width="44" height="44" rx="22" fill="#E8F4FF"/>
+  <text x="54" y="228" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="600" fill="#1677FF">张</text>
+  <text x="88" y="218" font-family="sans-serif" font-size="16" font-weight="500" fill="#333">张*华</text>
+  <text x="88" y="238" font-family="sans-serif" font-size="13" fill="#999">支付宝好友</text>
+
+  <line x1="32" y1="260" x2="343" y2="260" stroke="#F0F0F0" stroke-width="1"/>
+
+  <!-- Amount input -->
+  <text x="32" y="295" font-family="sans-serif" font-size="14" fill="#999">转账金额</text>
+  <text x="32" y="340" font-family="sans-serif" font-size="36" font-weight="300" fill="#333">¥</text>
+  <text x="65" y="340" font-family="sans-serif" font-size="36" font-weight="500" fill="#333">500.00</text>
+
+  <line x1="32" y1="365" x2="343" y2="365" stroke="#F0F0F0" stroke-width="1"/>
+
+  <!-- Remark -->
+  <text x="32" y="395" font-family="sans-serif" font-size="14" fill="#999">备注</text>
+  <text x="70" y="395" font-family="sans-serif" font-size="14" fill="#333">还你的钱</text>
+  <text x="320" y="395" font-family="sans-serif" font-size="14" fill="#CCC">></text>
+
+  <!-- Payment method -->
+  <text x="32" y="430" font-family="sans-serif" font-size="14" fill="#999">付款方式</text>
+  <text x="110" y="430" font-family="sans-serif" font-size="14" fill="#333">余额宝</text>
+  <text x="320" y="430" font-family="sans-serif" font-size="14" fill="#CCC">></text>
+
+  <!-- Confirm button -->
+  <rect x="16" y="485" width="343" height="50" rx="25" fill="#1677FF"/>
+  <text x="187" y="516" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="600" fill="#FFF">确认转账</text>
+
+  <!-- Security notice -->
+  <text x="187" y="560" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#999">支付宝安全支付</text>
+
+  <!-- Bottom icons -->
+  <rect x="16" y="590" width="343" height="80" rx="12" fill="#FFF"/>
+  <text x="80" y="625" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#666">转到银行卡</text>
+  <text x="187" y="625" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#666">面对面转账</text>
+  <text x="295" y="625" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#666">扫码转账</text>
+  <!-- Icons -->
+  <rect x="60" y="635" width="40" height="3" rx="1.5" fill="#1677FF" opacity="0.3"/>
+  <rect x="167" y="635" width="40" height="3" rx="1.5" fill="#1677FF" opacity="0.3"/>
+  <rect x="275" y="635" width="40" height="3" rx="1.5" fill="#1677FF" opacity="0.3"/>
+
+  <!-- Bottom tab bar -->
+  <rect y="756" width="375" height="56" fill="#FFF"/>
+  <line x1="0" y1="756" x2="375" y2="756" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="62" y="785" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#999">首页</text>
+  <text x="145" y="785" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#999">理财</text>
+  <text x="228" y="785" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1677FF">转账</text>
+  <text x="312" y="785" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#999">我的</text>
+</svg>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+  <title>看懂啦 - 帮长辈看懂手机屏幕</title>
+  <meta name="description" content="长辈把手机截图传上来，用大字和语音告诉他：这是什么、能不能点、下一步点哪里。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁️</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="logo">
+          <span class="logo-icon">👁️</span>
+          <span class="logo-text">看懂啦</span>
+        </div>
+        <button class="font-size-btn" id="fontSizeBtn" title="放大字号" aria-label="放大字号">
+          <span class="font-icon">A+</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Privacy Notice -->
+    <div class="privacy-notice" id="privacyNotice">
+      <p>🔒 您的截图仅用于本次分析，不会保存。建议先遮挡银行卡号、密码等敏感信息。</p>
+      <button class="privacy-dismiss" id="privacyDismiss" aria-label="知道了">知道了</button>
+    </div>
+
+    <!-- Screen 1: Upload -->
+    <main class="screen active" id="screenUpload">
+      <div class="upload-section">
+        <h1 class="main-title">手机上有看不懂的？</h1>
+        <p class="sub-title">拍个照或选截图，我来帮您看</p>
+
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-icon">📷</div>
+          <p class="upload-text">拍照或选截图</p>
+          <p class="upload-hint">支持 JPG、PNG 格式</p>
+          <input type="file" id="fileInput" accept="image/*" capture="environment" hidden aria-label="选择图片文件">
+        </div>
+
+        <div class="demo-section">
+          <h2 class="section-title">或者试试这些例子</h2>
+          <div class="demo-grid" id="demoGrid">
+            <!-- Demo cards will be inserted by JS -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Screen 2: Question -->
+    <main class="screen" id="screenQuestion">
+      <div class="question-section">
+        <div class="preview-container" id="previewContainer">
+          <img id="previewImage" alt="您上传的截图预览" class="preview-image">
+          <canvas id="privacyCanvas" class="privacy-canvas" style="display:none;"></canvas>
+          <div class="privacy-tools">
+            <button class="privacy-tool-btn" id="autoMaskBtn" title="自动打码手机号和卡号">
+              🔒 自动打码隐私
+            </button>
+          </div>
+        </div>
+
+        <h2 class="question-title">您想了解什么？</h2>
+
+        <div class="quick-options" id="quickOptions">
+          <button class="quick-btn" data-question="这是什么意思？">这是什么意思？</button>
+          <button class="quick-btn" data-question="我该点哪里？">我该点哪里？</button>
+          <button class="quick-btn" data-question="这是不是骗子？">这是不是骗子？</button>
+          <button class="quick-btn" data-question="帮我一步步教">帮我一步步教</button>
+        </div>
+
+        <div class="input-area">
+          <input type="text" id="questionInput" class="question-input" placeholder="或者用大字输入您的问题..." aria-label="输入您的问题">
+          <button class="analyze-btn" id="analyzeBtn">
+            <span class="btn-text">开始分析</span>
+            <span class="btn-loading" style="display:none;">分析中...</span>
+          </button>
+        </div>
+
+        <button class="back-btn" id="backToUpload">
+          ← 重新选择截图
+        </button>
+      </div>
+    </main>
+
+    <!-- Screen 3: Result -->
+    <main class="screen" id="screenResult">
+      <div class="result-section" id="resultSection">
+        <!-- Result content will be inserted by JS -->
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>看懂啦 · 帮长辈看懂手机屏幕 · 2026 Hack4Good</p>
+    </footer>
+  </div>
+
+  <script src="https://registry.npmmirror.com/tesseract.js/5.1.1/files/dist/tesseract.min.js" integrity="sha384-GJqSu7vueQ9qN0E9yLPb3Wtpd7OrgK8KmYzC8T1IysG1bcvxvIO4qtYR/D3A991F" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+</html>
