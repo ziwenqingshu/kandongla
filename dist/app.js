@@ -240,8 +240,9 @@ function createOCRWorkerWithTimeout(langPath, cdn) {
 async function getOrCreateOCRWorker() {
   if (state.ocrWorker) return state.ocrWorker;
   if (typeof Tesseract === 'undefined') {
-    // 主 CDN 没加载上时，依次换备用源再试一次
+    // 按需加载 OCR 库：国内镜像优先，失败依次换备用源
     const backups = [
+      'https://registry.npmmirror.com/tesseract.js/5.1.1/files/dist/tesseract.min.js',
       'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js',
       'https://unpkg.com/tesseract.js@5.1.1/dist/tesseract.min.js'
     ];
@@ -554,9 +555,13 @@ async function runAnalysis() {
     let ocrResult = null;
     let ocrFailed = false;
     try {
-      ocrResult = await performOCR(compressed.dataUrl, compressed.width, compressed.height, (fraction, status) => {
-        updateOcrProgress(fraction, status);
-      });
+      // 整个看图阶段最多等 75 秒，网络再差也不会一直转圈
+      ocrResult = await Promise.race([
+        performOCR(compressed.dataUrl, compressed.width, compressed.height, (fraction, status) => {
+          updateOcrProgress(fraction, status);
+        }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('OCR 总超时')), 75000))
+      ]);
       state.ocrLines = ocrResult.lines || [];
     } catch (ocrErr) {
       console.warn('OCR failed:', ocrErr);

@@ -393,4 +393,4 @@ kandongla/
 - 修复：反诈硬规则只检查用户输入（问题 + 截图 OCR 文字），不再扫描 AI 输出；服务端转账规则与前端统一为“转账 + 陌生人”等上下文才触发
 
 **问题 21：OCR 库主源加载失败时直接放弃**
-- 修复：tesseract.js 主库、worker 和 core 增加 jsdelivr / unpkg 备用源，主源不可用时自动切换
+- 修复：tesseract.js 改为按需动态加载（不再用同步 script 拖住页面初始化），主库、worker 和 core 都有 npmmirror / jsdelivr / unpkg 多个来源，依次切换；整个看图阶段最多 75 秒，超时给出友好提示
