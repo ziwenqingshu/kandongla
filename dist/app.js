@@ -192,7 +192,13 @@ const OCR_LANG_PATHS = [
   'https://fastly.jsdelivr.net/gh/naptha/tessdata@gh-pages/4.0.0_best_int'
 ];
 
-function createOCRWorkerWithTimeout(langPath) {
+const OCR_CDN_ALT = {
+  worker: 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js',
+  core: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1/tesseract-core-simd-lstm.wasm.js'
+};
+
+function createOCRWorkerWithTimeout(langPath, cdn) {
+  cdn = cdn || OCR_CDN;
   return new Promise((resolve, reject) => {
     let settled = false;
     const timer = setTimeout(() => {
@@ -201,8 +207,8 @@ function createOCRWorkerWithTimeout(langPath) {
       reject(new Error('OCR worker creation timed out after 45s'));
     }, 45000);
     Tesseract.createWorker('chi_sim+eng', 1, {
-      workerPath: OCR_CDN.worker,
-      corePath: OCR_CDN.core,
+      workerPath: cdn.worker,
+      corePath: cdn.core,
       workerBlobURL: true,
       langPath,
       gzip: true,
@@ -234,17 +240,35 @@ function createOCRWorkerWithTimeout(langPath) {
 async function getOrCreateOCRWorker() {
   if (state.ocrWorker) return state.ocrWorker;
   if (typeof Tesseract === 'undefined') {
-    ocrLoadFailed = true;
-    throw new Error('OCR library not loaded');
+    // 主 CDN 没加载上时，依次换备用源再试一次
+    const backups = [
+      'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js',
+      'https://unpkg.com/tesseract.js@5.1.1/dist/tesseract.min.js'
+    ];
+    for (const src of backups) {
+      if (typeof Tesseract !== 'undefined') break;
+      await new Promise((resolve) => {
+        const s = document.createElement('script');
+        s.src = src; s.async = true;
+        const timer = setTimeout(resolve, 15000);
+        s.onload = s.onerror = () => { clearTimeout(timer); resolve(); };
+        document.head.appendChild(s);
+      });
+    }
+    if (typeof Tesseract === 'undefined') {
+      ocrLoadFailed = true;
+      throw new Error('OCR library not loaded');
+    }
   }
   if (ocrWorkerInFlight) return ocrWorkerInFlight;
 
   ocrWorkerInFlight = (async () => {
     let lastErr;
-    for (const langPath of OCR_LANG_PATHS) {
+    const attempts = OCR_LANG_PATHS.map(l => [l, OCR_CDN]).concat([[OCR_LANG_PATHS[0], OCR_CDN_ALT]]);
+    for (const [langPath, cdn] of attempts) {
       let worker;
       try {
-        worker = await createOCRWorkerWithTimeout(langPath);
+        worker = await createOCRWorkerWithTimeout(langPath, cdn);
         state.ocrWorker = worker;
         return worker;
       } catch (err) {
@@ -573,8 +597,8 @@ async function runAnalysis() {
       result.risk_reason = (result.risk_reason || '') + '\n\n⚠️ 反诈检测（截图文字）：' + fraudCheckOnOCR.reason;
     }
 
-    const fraudCheck = checkFraudRules(result.summary + ' ' + (result.risk_reason || ''));
-    if (fraudCheck && fraudCheck.risk === 'red') {
+    const fraudCheck = checkFraudRules(question);
+    if (result.risk !== 'red' && fraudCheck && fraudCheck.risk === 'red') {
       result.risk = 'red';
       result.risk_reason = (result.risk_reason || '') + '\n\n⚠️ 反诈检测：' + fraudCheck.reason;
     }

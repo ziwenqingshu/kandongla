@@ -368,7 +368,7 @@ async function analyzeWithAgent(question: string, imageDescription: string, ocrT
 
 function applyFraudRules(result: AnalysisResult, question: string): AnalysisResult {
   const FRAUD_PATTERNS: Array<{ pattern: RegExp; reason: string }> = [
-    { pattern: /转账|汇款|打款.*陌生/, reason: "涉及转账给陌生人" },
+    { pattern: /(转账|汇款|打款).*(陌生|不认识|未知|安全账户)|(陌生|不认识|未知).*(转账|汇款|打款)/, reason: "涉及转账给陌生人" },
     { pattern: /中奖|领奖|恭喜.*获得/, reason: "中奖领奖类诈骗" },
     { pattern: /客服.*退款|退款.*客服|理赔/, reason: "冒充客服退款诈骗" },
     { pattern: /共享屏幕|屏幕共享|远程.*控制/, reason: "要求共享屏幕" },
@@ -380,7 +380,8 @@ function applyFraudRules(result: AnalysisResult, question: string): AnalysisResu
     { pattern: /24小时.*扣款|24小时.*失效/, reason: "制造紧迫感" },
   ];
 
-  const textToCheck = (result.summary + " " + (result.risk_reason || "") + " " + question).toLowerCase();
+  // 只检查用户输入（问题 + 截图文字），不检查 AI 自己的解释，避免“没有要验证码”这类否定句误判
+  const textToCheck = question.toLowerCase();
 
   for (const rule of FRAUD_PATTERNS) {
     if (rule.pattern.test(textToCheck) && result.risk !== "red") {
